@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Moravia Test</title>
+
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="./css/styles.css">
+
+<!-- JS -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	// Las palabras correctas por orden
+	//var values = [ 'Mancha', 'acordarme', 'astillero', 'corredor' ];
+	var text = '';
+	var dataToPlay = '';
+
+	// Leemos historial de localStorage
+	var history = JSON.parse(localStorage.getItem('history'));
+
+	// Si no hay historial -> array vacío
+	if (history === null) {
+		history = [];
+	} else {
+		// Hay historial, lo parseamos
+		$.each(history, function(key, value) {
+			$("#history").append(value+'<br>');
+			dataToPlay += value+',';
+		});
+		
+		var array = dataToPlay.substring(0, dataToPlay.length-1).split(',');
+		var array_last_six = array.slice(-6);
+		FizzBuzz(array[0], array[1], array[2], array[3], array[4], array[5]);
+
+	}
+
+	// al presionar comprobar
+	$('.comprueba').click(function(e) {
+
+		e.preventDefault();
+
+		// no realizo validación
+		// por HTML están puestos todos los campos como required (no seguro para producción)
+
+		text += '<div class="histories">';
+		$('input[type="text"], input[type="number"]').each(function(){
+			history.push(this.value);
+			text += this.name + ': ' + this.value + '<br>';
+			dataToPlay += this.value+',';
+		});
+		text += '</div>';
+
+		$("#history").append(text);
+		localStorage.setItem('history', JSON.stringify(history));
+		var text = '';
+
+		var array = dataToPlay.substring(0, dataToPlay.length-1).split(',');
+		FizzBuzz(array[0], array[1], array[2], array[3], array[4], array[5]);
+
+	});
+
+
+	$(".borrar").click(function() {
+        // Eliminamos el elemento "history" del almacenamiento local.
+        localStorage.removeItem('history');
+        // Vaciamos el historial mostrado por pantalla.
+        $("#history").html('');
+        $(".datos").html('');
+    });
+
+
+    // Ejecutamos FizzBuzz
+    function FizzBuzz(min, max, mult1, clave1, mult2, clave2){
+
+    	for(i = parseInt(min); i <= parseInt(max); i++){ 
+			
+			if ((i % parseInt(mult1) === 0) && (i % parseInt(mult2) === 0)) {
+				$(".datos").append('<span style="color: green">'+clave1+clave2+'</span>');
+			
+			} else if (i % mult1 === 0) { // si sólo es múltiplo de 3
+				$(".datos").append('<span style="color: red">'+clave1+'</span>');
+					
+			} else if (i % mult2 === 0) { // si sólo es múltiplo de 5
+				$(".datos").append('<span style="color: blue">'+clave2+'</blue>');
+				
+			} else { // si no es múltiplo de ninguno
+				$(".datos").append('<span style="color: #666">'+i+'</span>');
+			}
+			// salto de línea luego de cada número / referencia
+			$(".datos").append('<br>');
+		}
+    }
+
+});
+
+</script>
+</head>
+
+<body>
+	<header>
+		<h1>Test Moravia</h1>
+	</header>
+	<aside>
+		<h2>Datos Almacenados en LocalStorage</h2>
+		<div id="history"></div>
+	</aside>
+	<section class="config">
+		<fieldset>
+            <legend>Configuración</legend>
+            <label for="minimo">Valor Desde: </label>
+            <input type="number" min="0" max="99" name="minimo" id="minimo" placeholder="int" required> <span class="comment">número entero entre 0 y 99</span>
+            <br>
+            <label for="maximo">Valor Hasta: </label>
+            <input type="number" min="1" max="100" name="maximo" id="maximo" placeholder="int" required> <span class="comment">número entero entre 1 y 100</span>
+            <br>
+            <br>
+            <label for="mult1v">Múltiplos de: </label>
+            <input type="number" name="multiplicador 1" id="mult1v" placeholder="int"> <span class="comment" required>primer multiplicador</span>
+            &nbsp;&nbsp;&nbsp;
+            <label for="mult1c">Reemplazar por: </label>
+            <input type="text" name="Clave 1" id="mult1c" placeholder="fizz, foo, etc"> <span class="comment" required>palabra clave a usar</span>
+            <br>
+            <label for="mult2v">Múltiplos de: </label>
+            <input type="number" name="Multiplicador 2" id="mult2v" placeholder="int"> <span class="comment" required>segundo multiplicador</span>
+            &nbsp;&nbsp;&nbsp;
+            <label for="mult2c">Reemplazar por: </label>
+            <input type="text" name="Clave 2" id="mult2c" placeholder="fizz, foo, etc"> <span class="comment" required>palabra clave a usar</span>
+
+            <br><br>
+
+            <button class="comprueba">Comprobar</button>
+            <button class="borrar">Reiniciar</button>
+        </fieldset>
+	</section>
+
+	<section class="play">
+		<fieldset>
+			<legend><h2>Datos</h2></legend>
+			<article class="datos"></article>
+		</fieldset>
+	</section>
+	
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+	"multiplos" : [
+		{
+			"valor" : 2,
+			"clave" : "foo"
+		},
+		{
+			"valor" : 9,
+			"clave" : "bar"
+		}
+	]
+}

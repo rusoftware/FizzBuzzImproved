@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Fizz Buzz</title>
+</head>
+
+<body>
+
+<div>
+<!--
+BASIC EXAMPLE 
+<script language="javascript" type="text/javascript">
+for(i = 1; i <= 100; i++){
+	if ((i % 3 === 0) && (i % 5 === 0)) {
+		document.write('FizzBuzz');
+	} else if (i % 3 === 0) {
+		document.write('Fizz');
+	} else if (i % 5 === 0) {
+		document.write('Buzz');
+	} else {
+		document.write(i);
+	}
+	document.write('<br>');
+}
+</script>
+-->
+
+<script language="javascript" type="text/javascript">
+// EXAMPLE WITH COMMENTS AND STYLES
+
+for(i = 1; i <= 100; i++){ // show from 1 to 100
+
+	// si i es múltiplo de 3 y 5
+	// también puede usarse el MCM que en este caso es 15
+	// para saber si i es múltiplo de un número utilizo el resto (%)
+	if ((i % 3 === 0) && (i % 5 === 0)) {
+		document.write('<span style="color: green">FizzBuzz</span>');
+
+	} else if (i % 3 === 0) { // si sólo es múltiplo de 3
+		document.write('<span style="color: red">Fizz</span>');
+
+	} else if (i % 5 === 0) { // si sólo es múltiplo de 5
+		document.write('<span style="color: blue">Buzz</blue>');
+
+	} else { // si no es múltiplo de ninguno
+		document.write('<span style="color: #666">'+i+'</span>');
+	}
+	// salto de línea luego de cada número / referencia
+	document.write('<br>');
+}
+</script>
+</div>
+</body>
+</html>

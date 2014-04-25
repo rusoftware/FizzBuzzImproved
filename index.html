@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Moravia</title>
+
+<link rel="stylesheet" type="text/css" href="http://code.jquery.com/qunit/qunit-1.11.0.css">
+<script type="text/javascript" src="./js/jquery.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/qunit/qunit-1.11.0.js"></script>
+<script type="text/javascript" src="./js/testeos.js"></script>
+
+<script type="text/javascript">
+//$(document).ready(function(){
+
+	var mult = new Array();
+	var desde;
+	var hasta;
+
+	$.getJSON("./js/datos.json", function(data){
+
+		//alert(data.multiplos.length);
+		$.each(data.multiplos, function(i, itm){
+			mult.push([itm.valor, itm.clave]);
+		});
+
+		ejecutarResto();
+
+	});
+
+	function ejecutarResto(){
+
+	// Obtención de mínimo y máximo a mostrar
+		desde = prompt('Evaluar desde: ');
+		do {
+			hasta = prompt('Evaluar hasta: ');
+		} while (parseInt(desde) >= parseInt(hasta));
+
+		for(i = parseInt(desde); i <= parseInt(hasta); i++){ // show from 1 to 100
+			// si i es múltiplo de 3 y 5
+			// también puede usarse el MCM que en este caso es 15
+			// para saber si i es múltiplo de un número utilizo el resto (%)
+			if ((i % mult[0][0] === 0) && (i % mult[1][0] === 0)) {
+				$(".datos").append('<span style="color: green">'+mult[0][1]+mult[1][1]+'</span>');
+			
+			} else if (i % mult[0][0] === 0) { // si sólo es múltiplo de 3
+				$(".datos").append('<span style="color: red">'+mult[0][1]+'</span>');
+					
+			} else if (i % mult[1][0] === 0) { // si sólo es múltiplo de 5
+				$(".datos").append('<span style="color: blue">'+mult[1][1]+'</blue>');
+				
+			} else { // si no es múltiplo de ninguno
+				$(".datos").append('<span style="color: #666">'+i+'</span>');
+			}
+			// salto de línea luego de cada número / referencia
+			$(".datos").append('<br>');
+		}
+
+	}
+	
+//});
+
+
+test("mostrar foo, para multiplos de 2", function() {
+    equal(controlar(2), "foo");
+    equal(controlar(8), "foo");
+});
+
+test("mostrar bar, para multiplos de 9", function() {
+    equal(controlar(27), "bar");
+});
+
+test("mostrar foobar, para multiplo de 2 y 9", function() {
+    equal(controlar(36), "foobar");
+});
+
+test("mostrar i, para el resto", function() {
+    equal(controlar(11), 11);
+});
+
+</script>
+</head>
+
+<body>
+	<div class="datos"></div>
+	<div id="qunit"></div>
+	<div id="qunit-fixture"></div>
+</body>
+</html>
